@@ -3,6 +3,7 @@
 
 from http.client import HTTPConnection
 import json
+import os
 
 from .database import RedisClient
 
@@ -11,8 +12,8 @@ STOP_TIMEOUT = 60
 MAX_CONCURRENT = 16
 MAX_MAGNETS = 256
 
-ARIA2RPC_ADDR = "127.0.0.1"
-ARIA2RPC_PORT = 6800
+ARIA2RPC_ADDR = os.environ["ARIA2RPC_HOST"] if "ARIA2RPC_HOST" in os.environ else "127.0.0.1"
+ARIA2RPC_PORT = os.environ["ARIA2RPC_PORT"] if "ARIA2RPC_PORT" in os.environ else 6800
 
 rd = RedisClient()
 
