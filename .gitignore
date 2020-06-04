@@ -107,3 +107,4 @@ venv.bak/
 # custom
 .vscode/
 torrents/
+DhtSpider.code-workspace
