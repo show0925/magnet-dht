@@ -60,8 +60,9 @@ def exec_rpc(magnet):
 
     res = json.loads(conn.getresponse().read())
     if "error" in res:
-        print("Aria2c replied with an error:", res["error"])
+        logger.info("Aria2c replied with an error:{}".format(res["error"]))
     else:
+        logger.info("magnet to torrent:{}".format(magnet))
         rd.del_magnet(magnet)
 
 
