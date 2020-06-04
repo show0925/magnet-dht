@@ -11,6 +11,7 @@ from .database import RedisClient
 
 # while 循环休眠时间
 SLEEP_TIME_PARSEING = 1e-2
+SLEEP_TIME_ARIA2TIMEOUT = 5
 SLEEP_TIME_IDEL = 30
 
 SAVE_PATH = ".\\torrents"
@@ -82,3 +83,4 @@ def magnet2torrent():
                 time.sleep(SLEEP_TIME_IDEL)
         except Exception as e:
             logger.exception(e)
+            time.sleep(SLEEP_TIME_ARIA2TIMEOUT)
