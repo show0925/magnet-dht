@@ -5,13 +5,13 @@ import redis
 import os
 
 # redis key
-REDIS_KEY = os.environ["REDIS_KEY"] if os.environ["REDIS_KEY"] else "magnets"
+REDIS_KEY = os.environ["REDIS_KEY"] if "REDIS_KEY" in os.environ else "magnets"
 # redis 地址
-REDIS_HOST = os.environ["REDIS_HOST"] if os.environ["REDIS_HOST"] else "localhost"
+REDIS_HOST = os.environ["REDIS_HOST"] if "REDIS_HOST" in os.environ else "localhost"
 # redis 端口
-REDIS_PORT = os.environ["REDIS_PORT"] if os.environ["REDIS_PORT"] else 6379
+REDIS_PORT = os.environ["REDIS_PORT"] if "REDIS_PORT" in os.environ else 6379
 # redis 密码
-REDIS_PASSWORD = os.environ["REDIS_PASSWORD"] if os.environ["REDIS_PASSWORD"] else None
+REDIS_PASSWORD = os.environ["REDIS_PASSWORD"] if "REDIS_PASSWORD" in os.environ else None
 # redis 连接池最大连接量
 REDIS_MAX_CONNECTION = 20
 
