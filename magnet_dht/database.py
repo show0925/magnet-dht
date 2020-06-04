@@ -12,17 +12,20 @@ REDIS_HOST = os.environ["REDIS_HOST"] if "REDIS_HOST" in os.environ else "localh
 REDIS_PORT = os.environ["REDIS_PORT"] if "REDIS_PORT" in os.environ else 6379
 # redis 密码
 REDIS_PASSWORD = os.environ["REDIS_PASSWORD"] if "REDIS_PASSWORD" in os.environ else None
+# redis 数据库
+REDIS_DB = os.environ["REDIS_DB"] if "REDIS_DB" in os.environ else 0
 # redis 连接池最大连接量
 REDIS_MAX_CONNECTION = 20
 
 
 class RedisClient:
-    def __init__(self, host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD):
+    def __init__(self, host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD, db=REDIS_DB):
         conn_pool = redis.ConnectionPool(
             host=host,
             port=port,
             password=password,
             max_connections=REDIS_MAX_CONNECTION,
+            db=db,
         )
         self.redis = redis.Redis(connection_pool=conn_pool)
 
@@ -37,3 +40,9 @@ class RedisClient:
         返回指定数量的磁力链接
         """
         return self.redis.srandmember(REDIS_KEY, count)
+
+    def del_magnet(self, magnet):
+        """
+        删除磁力链接
+        """
+        self.redis.srem(REDIS_KEY, magnet)

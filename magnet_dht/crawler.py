@@ -4,7 +4,6 @@
 import socket
 import codecs
 import time
-from threading import Thread
 from collections import deque
 from multiprocessing import Process, cpu_count
 
@@ -44,10 +43,6 @@ BOOTSTRAP_NODES = [
 MAX_NODE_QSIZE = 10000
 # UDP 报文 buffsize
 UDP_RECV_BUFFSIZE = 65535
-# 服务 host
-SERVER_HOST = "0.0.0.0"
-# 服务端口
-SERVER_PORT = 9090
 # 磁力链接前缀
 MAGNET_PER = "magnet:?xt=urn:btih:{}"
 # while 循环休眠时间
@@ -56,8 +51,6 @@ SLEEP_TIME = 1e-5
 PER_NID_LEN = 20
 # 执行 bs 定时器间隔（秒）
 PER_SEC_BS_TIMER = 8
-# 是否使用全部进程
-MAX_PROCESSES = 2 // 2 or cpu_count()
 
 
 class HNode:
@@ -284,38 +277,3 @@ class DHTServer:
                 time.sleep(SLEEP_TIME)
             except Exception as e:
                 self.logger.warning(e)
-
-
-def _start_thread(offset):
-    """
-    启动线程
-
-    :param offset: 端口偏移值
-    """
-    dht = DHTServer(SERVER_HOST, SERVER_PORT + offset, offset)
-    threads = [
-        Thread(target=dht.send_find_node_forever),
-        Thread(target=dht.receive_response_forever),
-        Thread(target=dht.bs_timer),
-    ]
-
-    for t in threads:
-        t.start()
-
-    for t in threads:
-        t.join()
-
-
-def start_server():
-    """
-    多线程启动服务
-    """
-    processes = []
-    for i in range(MAX_PROCESSES):
-        processes.append(Process(target=_start_thread, args=(i,)))
-
-    for p in processes:
-        p.start()
-
-    for p in processes:
-        p.join()

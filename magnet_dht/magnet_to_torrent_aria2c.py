@@ -55,6 +55,8 @@ def exec_rpc(magnet):
     res = json.loads(conn.getresponse().read())
     if "error" in res:
         print("Aria2c replied with an error:", res["error"])
+    else:
+        rd.del_magnet(magnet)
 
 
 def magnet2torrent():
