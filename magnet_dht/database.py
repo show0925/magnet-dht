@@ -46,3 +46,9 @@ class RedisClient:
         删除磁力链接
         """
         self.redis.srem(REDIS_KEY, magnet)
+
+    def count(self):
+        """
+        返回总的数量
+        """
+        return self.redis.scard(REDIS_KEY)

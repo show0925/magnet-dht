@@ -46,7 +46,7 @@ UDP_RECV_BUFFSIZE = 65535
 # 磁力链接前缀
 MAGNET_PER = "magnet:?xt=urn:btih:{}"
 # while 循环休眠时间
-SLEEP_TIME = 1e-5
+SLEEP_TIME = 1e-2
 # 节点 id 长度
 PER_NID_LEN = 20
 # 执行 bs 定时器间隔（秒）

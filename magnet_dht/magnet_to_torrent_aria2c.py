@@ -4,8 +4,14 @@
 from http.client import HTTPConnection
 import json
 import os
+import time
+from .utils import get_logger
 
 from .database import RedisClient
+
+# while 循环休眠时间
+SLEEP_TIME_PARSEING = 1e-2
+SLEEP_TIME_IDEL = 30
 
 SAVE_PATH = ".\\torrents"
 STOP_TIMEOUT = 60
@@ -16,7 +22,7 @@ ARIA2RPC_ADDR = os.environ["ARIA2RPC_HOST"] if "ARIA2RPC_HOST" in os.environ els
 ARIA2RPC_PORT = os.environ["ARIA2RPC_PORT"] if "ARIA2RPC_PORT" in os.environ else 6800
 
 rd = RedisClient()
-
+logger = get_logger("logger_magnet_to_torrent")
 
 def get_magnets():
     """
@@ -63,5 +69,15 @@ def magnet2torrent():
     """
     磁力转种子
     """
-    for magnet in get_magnets():
-        exec_rpc(magnet)
+    logger.info("magnet to torrent forever...")
+    while True:
+        try:
+            if rd.count():
+                for magnet in get_magnets():
+                    exec_rpc(magnet)
+                
+                time.sleep(SLEEP_TIME_PARSEING)
+            else:
+                time.sleep(SLEEP_TIME_IDEL)
+        except Exception as e:
+            logger.exception(e)
