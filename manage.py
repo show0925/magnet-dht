@@ -3,9 +3,7 @@
 
 import argparse
 
-from magnet_dht.crawler import start_server
-from magnet_dht.magnet_to_torrent_aria2c import magnet2torrent
-from magnet_dht.parse_torrent import parse_torrent
+from magnet_dht.run import start_server
 
 
 def get_parser():
@@ -31,7 +29,7 @@ def command_line_runner():
     #elif args["m"]:
     #    magnet2torrent()
     #elif args["p"]:
-        parse_torrent()
+    #    parse_torrent()
 
 
 if __name__ == "__main__":
