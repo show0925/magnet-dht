@@ -15,7 +15,7 @@ def get_parser():
     parser = argparse.ArgumentParser(description="start manage.py with flag.")
     parser.add_argument("-s", action="store_true", help="run start_server func.")
     parser.add_argument("-m", action="store_true", help="run magnet2torrent func")
-    parser.add_argument("-p", action="store_true", help="run parse_torrent func")
+    #parser.add_argument("-p", action="store_true", help="run parse_torrent func")
     return parser
 
 
@@ -30,7 +30,7 @@ def command_line_runner():
         start_server()
     elif args["m"]:
         magnet2torrent()
-    elif args["p"]:
+    #elif args["p"]:
         parse_torrent()
 
 
