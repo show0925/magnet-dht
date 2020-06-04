@@ -15,7 +15,7 @@ SERVER_PORT = 9090
 MAX_PROCESSES = 2 // 2 or cpu_count()
 
 
-def _start_thread(offset):
+def _start_thread(offset, parse):
     """
     启动线程
 
@@ -26,8 +26,9 @@ def _start_thread(offset):
         Thread(target=dht.send_find_node_forever),
         Thread(target=dht.receive_response_forever),
         Thread(target=dht.bs_timer),
-        Thread(target=magnet2torrent),
     ]
+    if parse:
+        threads.append(Thread(target=magnet2torrent))        
 
     for t in threads:
         t.start()
@@ -36,13 +37,13 @@ def _start_thread(offset):
         t.join()
 
 
-def start_server():
+def start_server(parse=False):
     """
     多线程启动服务
     """
     processes = []
     for i in range(MAX_PROCESSES):
-        processes.append(Process(target=_start_thread, args=(i,)))
+        processes.append(Process(target=_start_thread, args=(i,parse)))
 
     for p in processes:
         p.start()
